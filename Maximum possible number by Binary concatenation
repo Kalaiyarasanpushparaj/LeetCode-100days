@@ -1,0 +1,17 @@
+class Solution {
+    public int maxGoodNumber(int[] nums) {
+        int n1 = nums[0], n2 = nums[1], n3 = nums[2];
+        
+        int b1 = Integer.toBinaryString(n1).length();    // <- 1)
+        int b2 = Integer.toBinaryString(n2).length();
+        int b3 = Integer.toBinaryString(n3).length();
+
+        return Math.max(                                 // <- 2)
+            Math.max((n1 << (b2 + b3)) + (n2 << b3) + n3, (n1 << (b3 + b2)) + (n3 << b2) + n2),
+            Math.max(
+                Math.max((n2 << (b1 + b3)) + (n1 << b3) + n3, (n2 << (b3 + b1)) + (n3 << b1) + n1),
+                Math.max((n3 << (b1 + b2)) + (n1 << b2) + n2, (n3 << (b2 + b1)) + (n2 << b1) + n1)
+            )
+        );
+    }
+}
