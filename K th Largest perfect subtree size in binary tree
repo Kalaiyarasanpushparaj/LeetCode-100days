@@ -1,0 +1,30 @@
+class Solution{
+private static int cntPerfectBiTreeNode(TreeNode root, PriorityQueue<Integer> nodeCntMinHeap, int k){
+	if (root == null){
+		return 0;
+	}
+
+	int leftNodeCnt = cntPerfectBiTreeNode(root.left, nodeCntMinHeap, k),
+		rightNodeCnt = cntPerfectBiTreeNode(root.right, nodeCntMinHeap, k);
+
+	if (leftNodeCnt != rightNodeCnt || leftNodeCnt == -1){
+		return -1;
+	}
+
+	int nodeCnt = 1 + leftNodeCnt * 2;
+
+	nodeCntMinHeap.add(nodeCnt);
+	if (nodeCntMinHeap.size() > k){
+		nodeCntMinHeap.remove();
+	}
+
+	return nodeCnt;
+}
+
+public static int kthLargestPerfectSubtree(TreeNode root, int k){
+	var nodeCntMinHeap = new PriorityQueue<Integer>(k + 1);
+	cntPerfectBiTreeNode(root, nodeCntMinHeap, k);
+	return (nodeCntMinHeap.size() == k)? nodeCntMinHeap.remove() : -1;
+}
+
+}
